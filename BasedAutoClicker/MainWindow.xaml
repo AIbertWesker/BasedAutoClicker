@@ -3,10 +3,45 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BasedAutoClicker"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="BetterClicker" Height="250" Width="400" Icon="/unknown.png" 
+        Background="#FF1A1A1A" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
 
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <RadioButton x:Name="rbHold" Content="Hold" Foreground="White" Margin="0,0,10,0" IsChecked="True"/>
+            <RadioButton x:Name="rbSpam" Content="Spam" Foreground="White"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Delay (ms):" Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBox x:Name="txtDelay" Width="80" Text="100" Foreground="White" Background="#333" PreviewTextInput="NumberValidationTextBox"/>
+
+            <TextBlock Text="Hold time (ms):" Foreground="White" VerticalAlignment="Center" Margin="20,0,10,0"
+                       Visibility="{Binding IsChecked, ElementName=rbHold, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <TextBox x:Name="txtHoldTime" Width="80" Text="1000" Foreground="White" Background="#333" PreviewTextInput="NumberValidationTextBox"
+                     Visibility="{Binding IsChecked, ElementName=rbHold, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,20">
+            <Button x:Name="btnStartStop" Content="Start (F6)" Width="100" Height="30" Background="#444" Foreground="White" Click="Button_Click" />
+            <TextBlock x:Name="txtStatus" Text="Not running" Foreground="Red" Margin="20,0,0,0" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <TextBox Grid.Row="3" x:Name="txtLog" Foreground="White" Background="Transparent" 
+                 IsReadOnly="True" BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        <TextBlock Grid.Row="4" Text="Made by AIbert" Foreground="#666" HorizontalAlignment="Center"/>
     </Grid>
 </Window>
